@@ -19,5 +19,5 @@ class DeviceHandler( tornado.web.RequestHandler ):
         self.write( "<h1>Devices</h1>" )
         self.write( "<ul>")
         for device in devices:
-            self.write( '<li><a href="">%s</a></li>' % ( device )
+            self.write( '<li><a href="">%s</a></li>' % ( device ) )
         self.write( "</ul>" )
