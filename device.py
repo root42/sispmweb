@@ -17,7 +17,7 @@ class DeviceHandler( tornado.web.RequestHandler ):
                 self.write( '<li><a href="device?serialNumber=%s">%s</a></li>'
                             % ( deviceSerialNumber,
                                 device[ 'name' ] ) )
-                self.write( "</ul>" )
+            self.write( "</ul>" )
             self.flush()
             return
         # otherwise show the device details
@@ -25,3 +25,8 @@ class DeviceHandler( tornado.web.RequestHandler ):
         self.write( '<h1>Outlets for %s</h1>' % ( device[ 'name' ] ) )
         self.write( '<p>%s</p>' % ( device[ 'description' ] ) )
         statusOfOutlets = sispm.SisPM.statusOfOutlets( deviceSerialNumber )
+        self.write( "<ul>")
+        for outlet in statusOfOutlets:
+            self.write( "<li>%s %s</li>" % ( outlet,
+                                             str( statusOfOutlets[ outlet ] ) ) )
+        self.write( "</ul>" )
