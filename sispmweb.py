@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import tornado.ioloop
 import tornado.web
-import device
 import sispm
+import device
+import outlet
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -11,8 +12,10 @@ class MainHandler(tornado.web.RequestHandler):
 
 application = tornado.web.Application([
     ( r"/", MainHandler ),
-    ( r"/device", device.DevicesHandler ),
-    ( r"/device/([0-9A-Za-z:]+)", device.DeviceHandler ),
+    ( r"/device/?", device.DevicesHandler ),
+    ( r"/device/([0-9A-Za-z:]+)/?", device.DeviceHandler ),
+    ( r"/device/([0-9A-Za-z:]+)/outlet/([0-9])+/?", outlet.OutletHandler ),
+    ( r"/device/([0-9A-Za-z:]+)/outlet/([0-9])+/status/(True|False)", outlet.OutletStatusHandler )
 ])
 
 if __name__ == "__main__":

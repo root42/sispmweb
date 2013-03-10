@@ -24,6 +24,22 @@ class SisPM:
         return status
 
     @staticmethod
+    def setStatusOfOutlet( serialNumber, outlet, status ):
+        print status
+        if status == True:
+            command = "%s -D %s -o %s" % ( SisPM.binary,
+                                           serialNumber,
+                                           outlet )
+        else:
+            command = "%s -D %s -f %s" % ( SisPM.binary,
+                                           serialNumber,
+                                           outlet )
+        result = commands.getoutput( command )
+        print command
+        print result
+        return result
+
+    @staticmethod
     def initializeListOfDevices():
         listOfDevices = {}
         command = "%s -s" % ( SisPM.binary )

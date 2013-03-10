@@ -1,7 +1,9 @@
 import tornado.web
 import sispm
+import outlet
 
 class DeviceHandler( tornado.web.RequestHandler ):
+    @tornado.web.removeslash
     def get( self, deviceSerialNumber ):
         devices = sispm.SisPM.listOfDevices
         device = devices[ deviceSerialNumber ]
@@ -10,11 +12,18 @@ class DeviceHandler( tornado.web.RequestHandler ):
         statusOfOutlets = sispm.SisPM.statusOfOutlets( deviceSerialNumber )
         self.write( "<ul>")
         for outlet in statusOfOutlets:
-            self.write( "<li>%s %s</li>" % ( outlet,
-                                             str( statusOfOutlets[ outlet ] ) ) )
+            self.write( '<li><a href="%s/outlet/%s">Outlet %s</a> <a href="%s/outlet/%s/status/%s">%s</a></li>'
+                        % ( deviceSerialNumber,
+                            outlet,
+                            outlet,
+                            deviceSerialNumber,
+                            outlet,
+                            'False' if statusOfOutlets[ outlet ] else 'True',
+                            'on' if statusOfOutlets[ outlet ] else 'off' ) )
         self.write( "</ul>" )
 
 class DevicesHandler( tornado.web.RequestHandler ):
+    @tornado.web.removeslash
     def get( self ):
         devices = sispm.SisPM.listOfDevices
         self.write( "<h1>Devices</h1>" )
