@@ -11,7 +11,8 @@ class MainHandler(tornado.web.RequestHandler):
 
 application = tornado.web.Application([
     ( r"/", MainHandler ),
-    ( r"/device", device.DeviceHandler ),
+    ( r"/device", device.DevicesHandler ),
+    ( r"/device/([0-9A-Za-z:]+)", device.DeviceHandler ),
 ])
 
 if __name__ == "__main__":
